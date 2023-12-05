@@ -22,7 +22,7 @@ void main()
 
     // Apply distortion to UV coordinates for a weaving-like effect
     uv.x += 0.0001 * sin(uv.y * 20.0 + u_time * 1.0);
-    uv.y += 0.003 * sin(uv.x * 20.0 + u_time * 1.0);
+    uv.y += 0.003 * sin(uv.x * 20.0 + u_time * 2.0);
 
     // Sample the input texture (watercolor)
     vec4 texColor = texture2D(u_tex0, uv);
