@@ -31,7 +31,7 @@ void main()
     float brightness = dot(texColor.rgb, vec3(0.7126, 0.9152, 0.0722));
 
     // Invert brightness
-    float invertedBrightness = 1.1 - brightness;
+    float invertedBrightness = 1.0 - brightness;
 
     // Enhance colors by exaggerating saturation
     vec3 enhancedColor = texColor.rgb * 2.5; // Adjust this factor to control color enhancement
