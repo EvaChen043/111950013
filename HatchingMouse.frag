@@ -10,6 +10,11 @@ uniform vec2 u_mouse;
 uniform float u_time;
 uniform sampler2D u_tex0;  // Input texture
 
+
+// Simple random function
+float random(vec2 st) {
+    return fract(sin(dot(st, vec2(12.9898, 78.233))) * 43758.5453);
+}
 void main()
 {
     vec2 uv = gl_FragCoord.xy / u_resolution.xy;
@@ -23,13 +28,13 @@ void main()
     vec4 texColor = texture2D(u_tex0, uv);
 
     // Calculate brightness (luminance) of the pixel
-    float brightness = dot(texColor.rgb, vec3(0.826, 0.6152, 0.622));
+    float brightness = dot(texColor.rgb, vec3(0.7126, 0.9152, 0.0722));
 
     // Invert brightness
-    float invertedBrightness = 1.34 - brightness;
+    float invertedBrightness = 1.5 - brightness;
 
     // Enhance colors by exaggerating saturation
-    vec3 enhancedColor = texColor.rgb * 6.5; // Adjust this factor to control color enhancement
+    vec3 enhancedColor = texColor.rgb * 2.5; // Adjust this factor to control color enhancement
 
     // Define fog parameters based on touch input
     float fogStart = 0.2; // Start of the fog effect
@@ -47,6 +52,10 @@ void main()
     // Apply canvas texture to the fogged color with some blending
     vec4 canvasTexture = texture2D(u_tex0, uv * 10.0); // Adjust UV scaling as needed
     vec3 finalColor = mix(foggedColor, canvasTexture.rgb, 0.);
+
+// Add dynamic noise based on brightness
+    float noiseAmount = invertedBrightness * 3.4; // Adjust this factor for noise intensity
+    finalColor += vec3(random(uv + u_time) * noiseAmount);
 
     // Make the brightest parts darkest and vice versa
     finalColor = mix(finalColor, vec3(invertedBrightness), 1.2); // Adjust the second parameter for effect strength
